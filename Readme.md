@@ -13,7 +13,7 @@ This project is a **Resume Screener** built using **Flask** and **EasyOCR**. It 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/resume-screener.git
+    git clone https://github.com/ashish842a/ressume-screener.git
     cd resume-screener
     ```
 
@@ -45,7 +45,6 @@ This project is a **Resume Screener** built using **Flask** and **EasyOCR**. It 
 
 - Flask
 - EasyOCR
-- PyTorch
 - Other dependencies listed in `requirements.txt`
 
 ## Folder Structure
