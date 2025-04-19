@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 2rem;
+            background: #f0f0f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #4a90e2;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ab7;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: 2px solid #4a90e2;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .fit {
+            color: green;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .not-fit {
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        /* Cube Loader Styles */
+        .loader {
+            width: 50px;
+            height: 50px;
+            margin: 20px auto;
+            display: block;
+            position: relative;
+        }
+
+        .loader div {
+            width: 10px;
+            height: 10px;
+            background-color: #4a90e2;
+            margin: 0 5px;
+            display: inline-block;
+            animation: cube 1.2s infinite ease-in-out;
+        }
+
+        .loader div:nth-child(1) {
+            animation-delay: -0.4s;
+        }
+
+        .loader div:nth-child(2) {
+            animation-delay: -0.2s;
+        }
+
+        .loader div:nth-child(3) {
+            animation-delay: 0;
+        }
+
+        @keyframes cube {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.5);
+            }
+        }
+
+        /* Hide loader by default */
+        .loader.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Resume for: {{ job_title }}</h2>
+        
+        <!-- Form for file upload -->
+        <form method="post" enctype="multipart/form-data" id="resumeForm">
+            <input type="file" name="resume" accept=".pdf,.png,.jpg,.jpeg" required>
+            <button type="submit">Check Fit</button>
+        </form>
+
+        <!-- Cube Loader -->
+        <div class="loader hidden" id="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <!-- Results Section -->
+        {% if result %}
+            <hr>
+            <h3>Result:</h3>
+            <p><strong>Matched Skills:</strong> {{ result.resume_skills }}</p>
+            <p><strong>Fit Score:</strong> {{ result.score }}%</p>
+            <p><strong>Job Required Skills:</strong> {{ job_skills }}</p>
+            {% if result.is_fit %}
+                <p class="fit">✅ This candidate is a good fit for the job!</p>
+            {% else %}
+                <p class="not-fit">❌ This candidate is not a good fit.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        const form = document.getElementById('resumeForm');
+        const loader = document.getElementById('loader');
+
+        // Show loader when form is submitting
+        form.addEventListener('submit', function(event) {
+            loader.classList.remove('hidden');
+        });
+
+        // Hide loader once the result is rendered (you can also handle this in your backend response handling)
+        window.addEventListener('load', function() {
+            loader.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
